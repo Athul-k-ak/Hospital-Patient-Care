@@ -25,8 +25,11 @@ const loginReception = async (req, res) => {
       _id: reception.id,
       name: reception.name,
       email: reception.email,
-      token: jwt.sign({ id: reception.id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
+      role: "reception", // This must be included
+      token: jwt.sign({ id: reception.id, role: "reception" }, process.env.JWT_SECRET, { expiresIn: "30d" }),
     });
+  
+  
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }

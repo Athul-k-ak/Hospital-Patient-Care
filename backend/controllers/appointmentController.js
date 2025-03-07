@@ -1,5 +1,6 @@
 const Appointment = require("../models/Appointment");
 const Doctor = require("../models/Doctor");
+const Patient = require("../models/Patient");
 const mongoose = require("mongoose");
 
 // Helper: Parse a time string (e.g., "10:00 AM") into minutes since midnight.
@@ -13,11 +14,37 @@ const parseTime = (timeStr) => {
 
 const bookAppointment = async (req, res) => {
   try {
-    const { patientName, doctorId, date, time } = req.body;
-
+    // Destructure required fields from request body.
+    // Accept either an existing patientId or a new patient object for registration.
+    const { patientId, patient, doctorId, date, time } = req.body;
+    
     // Validate doctorId.
     if (!doctorId || !mongoose.Types.ObjectId.isValid(doctorId)) {
       return res.status(400).json({ message: "Invalid doctorId" });
+    }
+
+    // Determine patientId and patientName:
+    let finalPatientId;
+    let finalPatientName;
+    if (patientId) {
+      // If a patientId is provided, validate that the patient exists.
+      const existingPatient = await Patient.findById(patientId);
+      if (!existingPatient) {
+        return res.status(400).json({ message: "Patient not found" });
+      }
+      finalPatientId = patientId;
+      finalPatientName = existingPatient.name;
+    } else if (patient) {
+      // Register new patient. Expect patient to contain name, age, gender, and phone.
+      const { name, age, gender, phone } = patient;
+      if (!name || !age || !gender || !phone) {
+        return res.status(400).json({ message: "Incomplete patient details" });
+      }
+      const newPatient = await Patient.create({ name, age, gender, phone });
+      finalPatientId = newPatient._id;
+      finalPatientName = newPatient.name;
+    } else {
+      return res.status(400).json({ message: "Patient details are required" });
     }
 
     // Fetch the doctor details.
@@ -50,7 +77,6 @@ const bookAppointment = async (req, res) => {
     }
 
     // Generate a sequential appointment token number for this doctor on the given date.
-    // Find the latest appointment (if any) for this doctor and date.
     const latestAppointment = await Appointment.findOne({ doctorId, date }).sort({ appointmentToken: -1 });
     let newToken = 1;
     if (latestAppointment) {
@@ -63,9 +89,10 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ message: "No appointment tokens available for today" });
     }
 
-    // Create the appointment with the new token number.
+    // Create the appointment with patientId and patientName.
     const appointment = await Appointment.create({ 
-      patientName, 
+      patientId: finalPatientId, 
+      patientName: finalPatientName,
       doctorId, 
       date, 
       time, 
@@ -89,15 +116,17 @@ const bookAppointment = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    // Populate the doctorId field to show the doctor's name.
-    const appointments = await Appointment.find({}).populate("doctorId", "name");
+    // Populate the doctorId and patientId fields.
+    const appointments = await Appointment.find({})
+      .populate("doctorId", "name")
+      .populate("patientId", "name age gender phone");
     res.json(appointments);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
-// New endpoint: Get Appointments Grouped by Doctor.
+// Get Appointments Grouped by Doctor.
 const getAppointmentsByDoctor = async (req, res) => {
   try {
     const appointmentsByDoctor = await Appointment.aggregate([
@@ -116,7 +145,7 @@ const getAppointmentsByDoctor = async (req, res) => {
           doctorName: { $first: "$doctor.name" },
           appointments: { $push: {
             _id: "$_id",
-            patientName: "$patientName",
+            patientId: "$patientId",
             date: "$date",
             time: "$time",
             appointmentToken: "$appointmentToken"
