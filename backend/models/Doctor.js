@@ -7,6 +7,6 @@ const doctorSchema = new mongoose.Schema({
   specialty: String,
   qualification: String,
   availableDays: [String],
-  availableTime: String,
+  availableTime: [String],
 });
 module.exports = mongoose.model("Doctor", doctorSchema);

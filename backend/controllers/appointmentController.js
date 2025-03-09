@@ -22,7 +22,7 @@ const bookAppointment = async (req, res) => {
     if (!doctorId || !mongoose.Types.ObjectId.isValid(doctorId)) {
       return res.status(400).json({ message: "Invalid doctorId" });
     }
-
+    
     // Determine patientId and patientName:
     let finalPatientId;
     let finalPatientName;
@@ -46,13 +46,13 @@ const bookAppointment = async (req, res) => {
     } else {
       return res.status(400).json({ message: "Patient details are required" });
     }
-
+    
     // Fetch the doctor details.
     const doctor = await Doctor.findById(doctorId);
     if (!doctor) {
       return res.status(400).json({ message: "Doctor not found" });
     }
-
+    
     // Validate appointment day: Convert the provided date to a day name.
     const appointmentDate = new Date(date);
     const appointmentDay = appointmentDate.toLocaleDateString("en-US", { weekday: "long" });
@@ -61,21 +61,32 @@ const bookAppointment = async (req, res) => {
         message: `Doctor is not available on ${appointmentDay}. Available days: ${doctor.availableDays.join(", ")}` 
       });
     }
-
-    // Validate appointment time against doctor's available time.
-    if (!doctor.availableTime) {
+    
+    // Validate appointment time against doctor's available time slots.
+    if (!doctor.availableTime || !Array.isArray(doctor.availableTime) || doctor.availableTime.length === 0) {
       return res.status(400).json({ message: "Doctor available time not specified" });
     }
-    const [startTimeStr, endTimeStr] = doctor.availableTime.split(" - ");
+    
     const appointmentTimeMinutes = parseTime(time);
-    const startTimeMinutes = parseTime(startTimeStr);
-    const endTimeMinutes = parseTime(endTimeStr);
-    if (appointmentTimeMinutes < startTimeMinutes || appointmentTimeMinutes > endTimeMinutes) {
+    let isWithinSlot = false;
+    for (const slot of doctor.availableTime) {
+      if (typeof slot !== "string") continue; // Skip non-string slots.
+      const timeParts = slot.split(" - ");
+      if (timeParts.length !== 2) continue; // Skip if format is incorrect.
+      const [startTimeStr, endTimeStr] = timeParts;
+      const startTimeMinutes = parseTime(startTimeStr);
+      const endTimeMinutes = parseTime(endTimeStr);
+      if (appointmentTimeMinutes >= startTimeMinutes && appointmentTimeMinutes <= endTimeMinutes) {
+        isWithinSlot = true;
+        break;
+      }
+    }
+    if (!isWithinSlot) {
       return res.status(400).json({ 
-        message: `Doctor is not available at ${time}. Available time is ${doctor.availableTime}` 
+        message: `Doctor is not available at ${time}. Available time slots: ${doctor.availableTime.join("; ")}`
       });
     }
-
+    
     // Generate a sequential appointment token number for this doctor on the given date.
     const latestAppointment = await Appointment.findOne({ doctorId, date }).sort({ appointmentToken: -1 });
     let newToken = 1;
@@ -88,7 +99,7 @@ const bookAppointment = async (req, res) => {
     if (newToken > 1000) {
       return res.status(400).json({ message: "No appointment tokens available for today" });
     }
-
+    
     // Create the appointment with patientId and patientName.
     const appointment = await Appointment.create({ 
       patientId: finalPatientId, 
@@ -98,7 +109,7 @@ const bookAppointment = async (req, res) => {
       time, 
       appointmentToken: newToken 
     });
-
+    
     // Return the appointment details, including the doctor's name and the appointment token.
     res.status(201).json({ 
       message: "Appointment booked successfully", 
