@@ -4,22 +4,39 @@ const jwt = require("jsonwebtoken");
 
 // Register Doctor (Only Admin can add)
 const registerDoctor = async (req, res) => {
-  // Only allow admin users to register a doctor.
-  if (!req.user || req.user.role !== "admin") {
+  console.log("🔍 Received Request to Register Doctor");
+  console.log("✅ Authenticated User:", req.user);
+
+  if (!req.user) {
+    console.log("❌ req.user is undefined");
+    return res.status(401).json({ message: "Unauthorized: No user found in request" });
+  }
+
+  console.log("✅ User Role:", req.user.role);
+
+  if (req.user.role !== "admin") {
+    console.log("❌ Access Denied: User is not an admin");
     return res.status(403).json({ message: "Access Denied" });
   }
-  
+
   const { name, email, password, phone, specialty, qualification, availableDays, availableTime } = req.body;
-  
-  // Check if doctor already exists
+
+  if (!name || !email || !password || !phone || !specialty || !qualification || !availableDays || !availableTime) {
+    console.log("❌ Missing required fields");
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  console.log("🔍 Checking if doctor already exists");
   const doctorExists = await Doctor.findOne({ email });
-  if (doctorExists) return res.status(400).json({ message: "Doctor already exists" });
-  
-  // Hash the password
+  if (doctorExists) {
+    console.log("❌ Doctor already exists");
+    return res.status(400).json({ message: "Doctor already exists" });
+  }
+
+  console.log("✅ Hashing Password");
   const hashedPassword = await bcrypt.hash(password, 10);
-  
-  // Create the doctor. Note: availableTime is expected to be an array, e.g.:
-  // ["10:00 AM - 12:00 PM", "2:00 PM - 4:00 PM"]
+
+  console.log("✅ Creating Doctor");
   const doctor = await Doctor.create({
     name,
     email,
@@ -27,10 +44,11 @@ const registerDoctor = async (req, res) => {
     phone,
     specialty,
     qualification,
-    availableDays,   // e.g. ["Monday", "Wednesday", "Friday"]
-    availableTime    // e.g. ["10:00 AM - 12:00 PM", "2:00 PM - 4:00 PM"]
+    availableDays,
+    availableTime,
   });
-  
+
+  console.log("✅ Doctor Registered Successfully:", doctor);
   res.status(201).json({ _id: doctor.id, name: doctor.name, email: doctor.email });
 };
 

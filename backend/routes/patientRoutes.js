@@ -3,7 +3,7 @@ const { registerPatient, getPatients } = require("../controllers/patientControll
 const router = express.Router();
 const protect = require("../middleware/authMiddleware");
 
-router.post("/register", registerPatient);
+router.post("/register",protect, registerPatient);
 router.get("/", protect, getPatients);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const { registerReception, loginReception, getReceptions } = require("../control
 const router = express.Router();
 const protect = require("../middleware/authMiddleware");
 
-router.post("/register", registerReception);
+router.post("/signup", registerReception);
 router.post("/login", loginReception);
 router.get("/", protect, getReceptions);
 

@@ -1,11 +1,11 @@
 const express = require("express");
 const { registerDoctor, loginDoctor, getDoctors } = require("../controllers/doctorController");
-const router = express.Router();
-const protect = require("../middleware/authMiddleware");
-const { authorizeRoles } = require("../middleware/roleMiddleware");
+const protect = require("../middleware/authMiddleware"); // Import middleware
 
-router.post("/register", protect, authorizeRoles("admin"), registerDoctor);
+const router = express.Router();
+
+router.post("/signup", protect, registerDoctor); // ✅ Ensure protect is applied
 router.post("/login", loginDoctor);
-router.get("/", protect, authorizeRoles("admin", "reception"), getDoctors);
+router.get("/", protect, getDoctors);
 
 module.exports = router;

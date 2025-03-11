@@ -6,7 +6,7 @@ const Admin = require("../models/Admin");
 
 // Conditionally apply protect middleware for the /register route:
 // If at least one admin exists, require a valid admin token; otherwise, allow registration.
-router.post("/register", (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   Admin.countDocuments({})
     .then((count) => {
       if (count > 0) {
