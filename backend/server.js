@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const adminRoutes = require("./routes/adminRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
@@ -10,11 +11,13 @@ const bloodBankRoutes = require("./routes/bloodBankRoutes");
 const patientReportRoutes = require("./routes/patientReportRoutes");
 const billingRoutes = require("./routes/billingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes"); 
+const staffRoutes = require("./routes/staffRoutes");
 
 connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/admin", adminRoutes);
@@ -26,6 +29,7 @@ app.use("/api/bloodbank", bloodBankRoutes);
 app.use("/api/patientreport", patientReportRoutes);
 app.use("/api/billing", billingRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/staff", staffRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

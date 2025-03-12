@@ -9,7 +9,8 @@ const doctorSchema = new mongoose.Schema({
   qualification: { type: String, required: true },
   availableDays: { type: [String], required: true },
   availableTime: { type: [String], required: true },
-  role: { type: String, enum: ["doctor"], default: "doctor" } // ✅ Add role
+  role: { type: String, enum: ["doctor"], default: "doctor" }, // ✅ Add role
+  profileImage: { type: String },
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);

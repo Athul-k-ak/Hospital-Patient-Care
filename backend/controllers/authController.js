@@ -27,5 +27,15 @@ exports.login = async (req, res) => {
       res.status(500).json({ message: "Server Error", error: error.message });
     }
   };
-
+  const logout = (req, res) => {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expires: new Date(0), // Set expiration to remove cookie
+    });
+  
+    res.json({ message: "Logged out successfully" });
+  };
+  
+  module.exports = { logout };
+  
   

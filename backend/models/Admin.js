@@ -6,6 +6,7 @@ const adminSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true, enum: ["admin"], default: "admin" },  // 🔹 Ensure role is stored
+  profileImage: { type: String },
 });
 
 module.exports = mongoose.model("Admin", adminSchema);

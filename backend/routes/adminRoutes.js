@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerAdmin, loginAdmin, getAdmins, deleteAdmin } = require("../controllers/adminController");
+const { registerAdmin, loginAdmin, logoutAdmin, getAdmins, deleteAdmin } = require("../controllers/adminController");
 const router = express.Router();
 const protect = require("../middleware/authMiddleware");
 const Admin = require("../models/Admin");
@@ -21,6 +21,7 @@ router.post("/signup", (req, res, next) => {
 }, registerAdmin);
 
 router.post("/login", loginAdmin);
+router.post("/logout", logoutAdmin);
 router.get("/", protect, getAdmins);
 router.delete("/:id", protect, deleteAdmin);
 

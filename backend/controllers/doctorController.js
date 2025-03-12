@@ -56,41 +56,60 @@ const registerDoctor = async (req, res) => {
 const loginDoctor = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
-    // Validate required fields.
+
+    // ✅ Validate required fields.
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
-    
-    // Find the doctor by email.
+
+    // ✅ Find the doctor by email.
     const doctor = await Doctor.findOne({ email });
     if (!doctor) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    
-    // Ensure a password exists and compare.
+
+    // ✅ Ensure a password exists and compare.
     if (!doctor.password) {
       return res.status(500).json({ message: "Doctor password is missing in database" });
     }
+
     const isMatch = await bcrypt.compare(password, doctor.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    
-    // Generate token with role "doctor"
-    const token = jwt.sign({ id: doctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: "30d" });
-    res.json({
-      _id: doctor.id,
-      name: doctor.name,
-      email: doctor.email,
-      role: "doctor",
-      token
-    });
+
+    // ✅ Generate JWT token with role "doctor"
+    const token = jwt.sign({ id: doctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+    // ✅ Store JWT in HTTP-only cookie
+    res
+      .cookie("jwt", token, {
+        httpOnly: true, // Prevents access from JavaScript (More Secure)
+        secure: process.env.NODE_ENV === "production", // Secure only in production
+        sameSite: "strict", // Prevents CSRF attacks
+        maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
+      })
+      .json({
+        _id: doctor.id,
+        name: doctor.name,
+        email: doctor.email,
+        role: "doctor",
+      });
+
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };
+const logout = (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0), // Set expiration to remove cookie
+  });
+
+  res.json({ message: "Logged out successfully" });
+};
+
 
 // Get all Doctors (Accessible by Admin & Reception)
 const getDoctors = async (req, res) => {
@@ -102,4 +121,4 @@ const getDoctors = async (req, res) => {
   res.json(doctors);
 };
 
-module.exports = { registerDoctor, loginDoctor, getDoctors };
+module.exports = { registerDoctor, loginDoctor, getDoctors, logout };
