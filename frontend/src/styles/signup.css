@@ -1,0 +1,123 @@
+/* Full-screen background styling */
+.signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: url('https://img.freepik.com/premium-vector/padlock-with-keyhole-icon-personal-data-security-illustrates-cyber-data-information-privacy-idea-blue-color-abstract-hi-speed-internet-technology_542466-600.jpg') center/cover no-repeat;
+    padding: 20px;
+  }
+  
+  /* Form box */
+  .signup-box {
+    background: rgba(0, 0, 0, 0.75); /* Semi-transparent black box */
+    color: white;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Headings */
+  .signup-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Input fields */
+  .signup-box input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    font-size: 16px;
+  }
+  
+  /* File input */
+  .signup-box .file-label {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  /* Profile image preview */
+  .profile-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 10px;
+    border: 2px solid white;
+  }
+  
+  /* Buttons */
+  .signup-box button {
+    width: 50%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .signup-box button:hover {
+    background: #0056b3;
+  }
+  
+  /* Login link */
+  .signup-box .login-link {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .signup-box .login-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .signup-box .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Error & Success Messages */
+  .error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .success-message {
+    color: #4CAF50;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* ✅ RESPONSIVE DESIGN */
+  @media (max-width: 480px) {
+    .signup-box {
+      max-width: 90%;
+      padding: 30px;
+    }
+  
+    .signup-box input {
+      padding: 10px;
+    }
+  
+    .signup-box button {
+      padding: 10px;
+    }
+  }
+  
+
+  /* Signup Form Styles */

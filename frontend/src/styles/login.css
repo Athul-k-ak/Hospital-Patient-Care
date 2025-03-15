@@ -1,0 +1,102 @@
+/* Full-screen background styling */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: url('https://t4.ftcdn.net/jpg/03/57/34/39/360_F_357343965_u58BFcRrziBVMqgt6liwPHJKcIjHsPnc.jpg') center/cover no-repeat;
+    padding: 20px;
+  }
+  
+  /* Form box */
+  .login-box {
+    background: rgba(0, 0, 0, 0.413); /* Semi-transparent black box */
+    color: white;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgb(0, 0, 0);
+  }
+  
+  /* Headings */
+  .login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Input fields */
+  .login-box input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    font-size: 16px;
+  }
+  
+  /* Buttons */
+  .login-box button {
+    width: 50%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .login-box button:hover {
+    background: #0056b3;
+  }
+  
+  .login-box button:disabled {
+    background: #999;
+    cursor: not-allowed;
+  }
+  
+  /* Signup link */
+  .login-box .signup-link {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .login-box .signup-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .login-box .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* ✅ Responsive design */
+  @media (max-width: 480px) {
+    .login-box {
+      max-width: 90%;
+      padding: 30px;
+    }
+  
+    .login-box input {
+      padding: 10px;
+    }
+  
+    .login-box button {
+      padding: 10px;
+    }
+  }
+  

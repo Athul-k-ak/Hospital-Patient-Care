@@ -1,0 +1,214 @@
+/* Main container */
+.doctor-register-container {
+    display: flex;
+    height: 100vh;
+    background: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg') center/cover no-repeat;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Registration box (divided into three sections) */
+.doctor-register-box {
+    background: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg') center/cover no-repeat;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 800px; /* Increased width for 3 sections */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    color: black;
+    margin-top: 50px;
+    height: auto;
+    margin-left: 200px;
+}
+
+/* Form sections - Three equal parts */
+.form-section {
+    flex: 1;
+    padding: 15px;
+}
+
+.form-section input{
+    width: 350px;
+
+}
+
+/* Section Titles */
+.doctor-register-box h2 {
+    text-align: center;
+    color: #131313;
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Form layout */
+.doctor-register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Labels */
+.doctor-register-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+    font-size: 15px;
+}
+
+/* ✨ Stylish Input Fields */
+.doctor-register-form input,
+.doctor-register-form select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 15px;
+    background: #f9f9f9;
+    transition: 0.3s ease;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.05);
+    
+}
+
+/* Smooth Focus & Hover Effects */
+.doctor-register-form input:focus,
+.doctor-register-form select:focus {
+    background: white;
+    border-color: #0056b3;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* 🕒 Time Slot & Available Days Sections - Proper Checkbox Alignment */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Checkbox Label */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 48%; /* Ensure two checkboxes per row */
+}
+
+/* Checkbox Input */
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff;
+}
+
+/* 🌟 Beautiful Register Button */
+.doctor-register-button {
+    width: 100%;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 20px;
+    
+}
+
+.doctor-register-button:hover {
+    background: linear-gradient(135deg, #0056b3, #000000);
+    box-shadow: 0px 4px 10px rgba(0, 91, 187, 0.5);
+    transform: scale(1.05);
+}
+
+/* Back Button */
+.back-btn {
+    background-color: #a8a4a4;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #d2d2d2, #191919);
+
+}
+
+/* Error & Success Messages */
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.success-message {
+    color: green;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .doctor-register-box {
+        flex-direction: column;
+        max-width: 90%;
+    }
+
+    .form-section {
+        width: 100%;
+    }
+
+    .checkbox-label {
+        width: 100%; /* Stack checkboxes on smaller screens */
+    }
+}
+/* Beautiful Form Section Heading */
+/* Beautiful Form Section Heading */
+.form-section h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0062ff;
+    
+    /* Gradient Effect */
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    
+    /* Cross-Browser Compatibility */
+    -webkit-background-clip: text; /* Safari, Chrome */
+    -moz-background-clip: text;    /* Firefox (Old) */
+    -o-background-clip: text;      /* Opera (Old) */
+    background-clip: text;         /* Standard */
+    
+    -webkit-text-fill-color: transparent; /* Required for WebKit browsers */
+    
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    
+    /* Bottom Border for Style */
+    border-bottom: 3px solid #007bff;
+    
+    /* Font Style */
+    font-family: 'Poppins', sans-serif;
+}
