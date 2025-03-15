@@ -1,55 +1,74 @@
 const Doctor = require("../models/Doctor");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../config/cloudinary");
+
 
 // Register Doctor (Only Admin can add)
 const registerDoctor = async (req, res) => {
-  console.log("🔍 Received Request to Register Doctor");
-  console.log("✅ Authenticated User:", req.user);
+  try {
+    console.log("🔍 Received Request to Register Doctor");
+    console.log("🛠️ Request Body:", { ...req.body, password: "********" });
 
-  if (!req.user) {
-    console.log("❌ req.user is undefined");
-    return res.status(401).json({ message: "Unauthorized: No user found in request" });
+    console.log("🛠️ Request File:", req.file);
+
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access Denied" });
+    }
+
+    // ✅ Extract fields from FormData
+    const { name, email, password, phone, specialty, qualification } = req.body;
+    
+    // ✅ Parse JSON fields (availableDays & availableTime are sent as text)
+    const availableDays = req.body.availableDays ? JSON.parse(req.body.availableDays) : [];
+    const availableTime = req.body.availableTime ? JSON.parse(req.body.availableTime) : [];
+
+    if (!name || !email || !password || !phone || !specialty || !qualification || !availableDays.length || !availableTime.length) {
+      console.log("❌ Missing required fields");
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    console.log("🔹 Processed Data:", { name, email, phone, specialty, qualification, availableDays, availableTime });
+
+    // 🔍 Check if doctor already exists
+    const doctorExists = await Doctor.findOne({ email });
+    if (doctorExists) return res.status(400).json({ message: "Doctor already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ Upload profile image if provided
+    let profileImage = null;
+    if (req.file) {
+      console.log("🔍 Uploading profile image to Cloudinary...");
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path, { folder: "hospital_dashboard/doctors" });
+      profileImage = uploadedImage.secure_url;
+      console.log("✅ Profile image uploaded:", profileImage);
+    }
+
+    // ✅ Save Doctor to DB
+    const doctor = await Doctor.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      specialty,
+      qualification,
+      availableDays,
+      availableTime,
+      profileImage,
+    });
+
+    console.log("✅ Doctor Registered Successfully");
+    res.status(201).json({
+      _id: doctor.id,
+      name: doctor.name,
+      email: doctor.email,
+      profileImage: doctor.profileImage,
+    });
+  } catch (error) {
+    console.error("❌ Register Doctor Error:", error);
+    res.status(500).json({ message: "Server Error" });
   }
-
-  console.log("✅ User Role:", req.user.role);
-
-  if (req.user.role !== "admin") {
-    console.log("❌ Access Denied: User is not an admin");
-    return res.status(403).json({ message: "Access Denied" });
-  }
-
-  const { name, email, password, phone, specialty, qualification, availableDays, availableTime } = req.body;
-
-  if (!name || !email || !password || !phone || !specialty || !qualification || !availableDays || !availableTime) {
-    console.log("❌ Missing required fields");
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  console.log("🔍 Checking if doctor already exists");
-  const doctorExists = await Doctor.findOne({ email });
-  if (doctorExists) {
-    console.log("❌ Doctor already exists");
-    return res.status(400).json({ message: "Doctor already exists" });
-  }
-
-  console.log("✅ Hashing Password");
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  console.log("✅ Creating Doctor");
-  const doctor = await Doctor.create({
-    name,
-    email,
-    password: hashedPassword,
-    phone,
-    specialty,
-    qualification,
-    availableDays,
-    availableTime,
-  });
-
-  console.log("✅ Doctor Registered Successfully:", doctor);
-  res.status(201).json({ _id: doctor.id, name: doctor.name, email: doctor.email });
 };
 
 // Login Doctor

@@ -11,7 +11,7 @@ const getUserById = async (id) => {
   if (!user) {
     console.log("❌ User not found in the database for ID:", id);
   } else {
-    console.log("✅ User found in database:", user);
+    // console.log("✅ User found in database:", user);
   }
 
   return user;
@@ -27,7 +27,7 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("✅ Decoded Token:", decoded); // Debugging
+    // console.log("✅ Decoded Token:", decoded); // Debugging
 
     req.user = await getUserById(decoded.id);
 
@@ -36,8 +36,9 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-    console.log("✅ Authenticated User:", req.user);
-    console.log("✅ User Role (Middleware):", req.user.role); // Ensure role exists
+    console.log(`✅ Authenticated User: Name: ${req.user.name}, Role: ${req.user.role}`);
+
+    // console.log("✅ User Role (Middleware):", req.user.role); // Ensure role exists
 
     if (!req.user.role) {
       return res.status(500).json({ message: "Role is missing in database" });

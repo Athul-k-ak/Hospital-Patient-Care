@@ -3,13 +3,11 @@ const Patient = require("../models/Patient");
 // Register Patient (Only Admin and Reception can register)
 const registerPatient = async (req, res) => {
   try {
-    console.log("Authenticated User:", req.user); // Debugging log
-
+    
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized: No user found in request" });
     }
 
-    console.log("User Role:", req.user.role); // Check if role is being recognized
 
     if (req.user.role !== "admin" && req.user.role !== "reception") {
       return res.status(403).json({ message: "Access denied. Only Admin and Reception can register patients." });

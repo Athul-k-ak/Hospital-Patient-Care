@@ -2,39 +2,77 @@ const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const generateToken = require("../utils/generateToken");
+const cloudinary = require("../config/cloudinary");
+
 
 // Register Admin
 // If no admin exists, allow registration without a token.
 // Otherwise, only a valid admin token can register a new admin.
 const registerAdmin = async (req, res) => {
-  const adminCount = await Admin.countDocuments({});
+  try {
+    const adminCount = await Admin.countDocuments({});
 
-  // If at least one admin exists, require a valid admin token.
-  if (adminCount > 0) {
-    if (!req.user || req.user.role !== "admin") {
+    // ✅ Require an admin token if admins already exist
+    if (adminCount > 0 && (!req.user || req.user.role !== "admin")) {
       return res.status(403).json({ message: "Access Denied" });
     }
+
+    const { name, email, password, phone } = req.body;
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    console.log("🔹 Received Data:", { name, email, phone });
+
+    const adminExists = await Admin.findOne({ email });
+    if (adminExists) return res.status(400).json({ message: "Admin already exists" });
+
+    // ✅ Ensure password is a valid string before hashing
+    if (typeof password !== "string") {
+      return res.status(400).json({ message: "Invalid password format" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+
+    // ✅ Upload profile image to Cloudinary (if provided)
+    let profileImage = null;
+    if (req.file) {
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "hospital_dashboard/admins",
+      });
+      profileImage = uploadedImage.secure_url;
+    }
+
+    const admin = await Admin.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      profileImage,
+    });
+
+    // ✅ Generate JWT token
+    const token = generateToken(admin.id, "admin");
+
+    // ✅ Store token in HTTP-only cookie
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(201).json({
+      _id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      profileImage: admin.profileImage,
+    });
+  } catch (error) {
+    console.error("❌ Register Admin Error:", error);
+    res.status(500).json({ message: "Server Error" });
   }
-
-  const { name, email, password, phone } = req.body;
-  const adminExists = await Admin.findOne({ email });
-  if (adminExists) return res.status(400).json({ message: "Admin already exists" });
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const admin = await Admin.create({ name, email, password: hashedPassword, phone });
-
-  // Generate JWT token
-  const token = generateToken(admin.id, "admin");
-
-  // Store token in HTTP-only cookie
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
-
-  res.status(201).json({ _id: admin.id, name: admin.name, email: admin.email });
 };
 
 
@@ -73,10 +111,13 @@ const getAdmins = async (req, res) => {
   if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({ message: "Access Denied" });
   }
-  
-  const admins = await Admin.find({});
+
+  // Fetch admins but exclude the password field
+  const admins = await Admin.find({}).select("-password");
+
   res.json(admins);
 };
+
 
 
 // Delete Admin (Only Admin can delete)
