@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
-import "../styles/adminreg.css";
+import "../styles/adminRegister.css";
 
 const AdminRegister = () => {
   const [formData, setFormData] = useState({
@@ -79,29 +79,31 @@ const AdminRegister = () => {
 
   return (
     <DashboardLayout>
-      <div className="signup-container">
-        <div className="signup-box">
+      <div className="admin-signup-container">
+        <div className="admin-signup-box">
           <h2>Register Admin</h2>
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
           
-          <form onSubmit={handleSignup} className="form-container">
+          <form onSubmit={handleSignup} className="admin-form-container">
             <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required />
             <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
             <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
             <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required />
-
-            <label className="file-label">
+            
+            <div className="admin-file">
+            <label className="admin-file-label">
               Upload Profile Image (Optional)
-              <input type="file" accept="image/*" onChange={handleImageChange} />
+              <input  type="file" accept="image/*" onChange={handleImageChange} />
             </label>
+            </div>
 
             {/* {preview && <img src={preview} alt="Preview" className="profile-preview" />} */}
 
-            <button className="signup-btn" type="submit" disabled={loading}>
+            <button className="admin-signup-btn" type="submit" disabled={loading}>
               {loading ? "Signing Up..." : "Sign Up"}
             </button><br /><br />
-            <button className="back-btn" onClick={() => navigate(-1)}>←</button>
+            <button className="admin-back-btn" onClick={() => navigate(-1)}>← Back</button>
             
           </form>
         </div>

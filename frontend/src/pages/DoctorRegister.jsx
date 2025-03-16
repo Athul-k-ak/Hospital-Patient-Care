@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
-import "../styles/doctorreg.css";
+import "../styles/doctorRegister.css";
 
 const DoctorRegister = () => {
   const [formData, setFormData] = useState({
@@ -101,7 +101,7 @@ const DoctorRegister = () => {
       <div className="doctor-register-container">
         <form className="doctor-register-box" onSubmit={handleSignup}>
           {/* Left Section - General Details */}
-          <div className="form-section">
+          <div className="doctor-form-section">
             <h2>Doctor Registration</h2>
 
             <label>Name</label><br />

@@ -1,7 +1,7 @@
 /* Main container */
 .doctor-register-container {
     display: flex;
-    height: 100vh;
+    height: 85vh;
     background: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg') center/cover no-repeat;
     justify-content: center;
     align-items: center;
@@ -24,15 +24,16 @@
     margin-top: 50px;
     height: auto;
     margin-left: 200px;
+   
 }
 
 /* Form sections - Three equal parts */
-.form-section {
+.doctor-form-section {
     flex: 1;
-    padding: 15px;
+    padding: 10px;
 }
 
-.form-section input{
+.doctor-form-section input{
     width: 350px;
 
 }
@@ -114,7 +115,7 @@
 
 /* 🌟 Beautiful Register Button */
 .doctor-register-button {
-    width: 100%;
+    width: 60%;
     background: linear-gradient(135deg, #007bff, #0056b3);
     color: white;
     padding: 14px;
@@ -125,7 +126,7 @@
     cursor: pointer;
     transition: 0.3s ease;
     text-transform: uppercase;
-    margin-top: 20px;
+   
     
 }
 
@@ -137,6 +138,9 @@
 
 /* Back Button */
 .back-btn {
+    position:absolute;
+    left: 620px;
+    bottom: 54px;
     background-color: #a8a4a4;
     color: white;
     padding: 12px 20px;
@@ -146,7 +150,7 @@
     cursor: pointer;
     transition: background 0.3s ease;
     font-weight: bold;
-    margin-top: 20px;
+   
 }
 
 .back-btn:hover {
@@ -184,7 +188,7 @@
 }
 /* Beautiful Form Section Heading */
 /* Beautiful Form Section Heading */
-.form-section h2 {
+.doctor-form-section h2 {
     text-align: center;
     font-size: 22px;
     font-weight: bold;

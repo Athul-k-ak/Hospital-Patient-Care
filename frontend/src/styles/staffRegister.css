@@ -1,0 +1,155 @@
+/* Background Styling */
+.staff-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 94vh;
+  width: 201vh;
+  background: linear-gradient(to right, #015fb1a2, #054c8bb7),
+              url("https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg") 
+              center/cover no-repeat;
+}
+
+/* Signup Form Box */
+.staff-signup-box {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  width: 100%;
+  height: 80%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: fadeIn 0.8s ease-in-out;
+  margin-left: 200px;
+  margin-top: 40px;
+}
+
+/* Title */
+.staff-signup-box h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Layout */
+.staff-form-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* Input Fields */
+.staff-form-container input,
+.staff-form-container select {
+  width: 80%;
+  padding: 12px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  color: black;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+  margin: 10px;
+}
+
+/* Input Hover and Focus Effects */
+.staff-form-container input:hover,
+.staff-form-container select:hover,
+.staff-form-container input:focus,
+.staff-form-container select:focus {
+  border-color: white;
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Placeholder Styling */
+.staff-form-container input::placeholder {
+  color: black;
+}
+
+/* File Upload Styling */
+.staff-file-label {
+  font-size: 14px;
+  color: white;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+/* File Upload - Full Width */
+.staff-file-label,
+.staff-file-label input {
+  grid-column: span 2;
+}
+
+.staff-file-upload input {
+  width: 75%;
+  margin-top: 20px;
+}
+
+/* Buttons Section */
+.staff-buttons {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Signup Button */
+.staff-signup-btn {
+  background: linear-gradient(135deg, #0044cc, #00ccff);
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.staff-signup-btn:hover {
+  background: linear-gradient(135deg, #0033aa, #0099cc);
+  transform: translateY(-2px);
+}
+
+/* Back Button */
+.staff-back-btn {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.staff-back-btn:hover {
+  background: linear-gradient(135deg, #d2d2d2, #191919);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .staff-form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

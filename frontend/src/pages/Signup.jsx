@@ -97,7 +97,7 @@ const Signup = () => {
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </label>
 
-          {preview && <img src={preview} alt="Preview" className="profile-preview" />}
+          {/* {preview && <img src={preview} alt="Preview" className="profile-preview" />} */}
 
           <button type="submit" disabled={loading}>
             {loading ? "Signing Up..." : "Sign Up"}
