@@ -1,0 +1,105 @@
+/* Doctor Details Container */
+.doctor-details-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 20px;
+}
+
+/* Doctor Details Box */
+.doctor-details-box {
+  margin-left: 250px;
+  display: flex;
+  width: 800px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Left Side - Doctor Photo */
+.doctor-photo-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 20px;
+  border-right: 2px solid #e0e0e0;
+}
+
+.doctor-profile-img {
+  width: 200px;
+  height: 250px;
+  border-radius: 5%;
+  object-fit: cover;
+  /* border: 3px solid #000000; */
+}
+
+/* Right Side - Doctor Information */
+.doctor-info-section {
+  flex: 2;
+  padding: 20px;
+}
+
+.doctor-name {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.doctor-specialty {
+  font-size: 18px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.doctor-info p {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* Back Button */
+.doctor-details-back-btn {
+  margin-top: 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 400px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.doctor-details-back-btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .doctor-details-box {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .doctor-photo-section {
+    border-right: none;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+  }
+
+  .doctor-profile-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .doctor-info-section {
+    text-align: center;
+  }
+}

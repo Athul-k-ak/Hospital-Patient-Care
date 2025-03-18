@@ -10,6 +10,9 @@ import AdminRegister from "../pages/AdminRegister";
 import DoctorRegister from "../pages/DoctorRegister";
 import StaffRegister from "../pages/StaffRegister";
 import ReceptionRegister from "../pages/ReceptionRegister";
+import DoctorList from "../pages/DoctorList";
+import DoctorDetails from "../pages/DoctorDetails";
+
 
 const AppRoutes = () => {
   return (
@@ -27,6 +30,10 @@ const AppRoutes = () => {
           <Route path="/admin/register/doctor" element={<DoctorRegister />} />
           <Route path="/admin/register/staff" element={<StaffRegister />} />
           <Route path="/admin/register/reception" element={<ReceptionRegister />} />
+          <Route path="/admin/doctor-list" element={<DoctorList />} />
+          <Route path="/admin/doctor/:id" element={<DoctorDetails />} />
+
+
         </Route>
 
         {/* Protected Routes for Doctor */}

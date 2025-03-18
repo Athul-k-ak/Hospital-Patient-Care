@@ -1,0 +1,227 @@
+/* 🔹 Main Container */
+.doctor-list-container {
+    margin-left: 250px;
+    margin-top: 50px;
+    max-width: 800px;
+
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    color: black;
+    width: 90%; /* Responsive width */
+}
+
+/* 🔹 Heading */
+.doctor-list-container h2 {
+    text-align: center;
+    color: #003e80;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 🔹 Search Box */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.search-box:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 🔹 Buttons */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* 🔹 PDF Button */
+.pdf-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #FF5733;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.pdf-btn:hover {
+    background-color: #c82333;
+}
+
+/* 🔹 Table Wrapper */
+.table-wrapper {
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Doctor Table */
+.doctor-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+/* 🔹 Table Header */
+.doctor-table th {
+    background-color: #003e80;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-transform: uppercase;
+}
+
+/* 🔹 Table Rows */
+.doctor-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.doctor-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 🔹 Table Cells */
+.doctor-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    text-decoration: none;
+    font-style: normal;
+    
+}
+
+/* 🔹 Clickable Doctor Names */
+.doctor-name {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.doctor-name:hover {
+    color: #007bff;
+}
+
+/* 🔹 Scrollbar Styling */
+.table-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 1024px) {
+    .doctor-list-container {
+        width: 95%;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .pdf-btn {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .doctor-list-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .search-box {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pdf-btn {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .doctor-table th,
+    .doctor-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .doctor-list-container {
+        padding: 10px;
+    }
+
+    .doctor-table th,
+    .doctor-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .search-box {
+        font-size: 12px;
+    }
+
+    .pdf-btn {
+        font-size: 12px;
+    }
+}
+
+/* 🔹 Hide Search and Buttons during Print */
+@media print {
+    .actions,
+    .search-container {
+        display: none;
+    }
+}
+
+/* 🔹 Loading Text */
+.loading-text {
+    color: #ff9800;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 40px;
+}
