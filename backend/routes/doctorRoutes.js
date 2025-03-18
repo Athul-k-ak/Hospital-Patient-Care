@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerDoctor, loginDoctor, getDoctors, logout } = require("../controllers/doctorController");
+const { registerDoctor, loginDoctor, getDoctors, logout, getDoctorById, updateDoctor } = require("../controllers/doctorController");
 const protect = require("../middleware/authMiddleware"); // Import middleware
 const upload = require("../middleware/uploadMiddleware");
 
@@ -10,5 +10,9 @@ router.post("/signup", upload.single("profileImage"),protect, registerDoctor); /
 router.post("/login", loginDoctor);
 router.post("/logout", logout);
 router.get("/", protect, getDoctors);
+router.get("/:id", protect, getDoctorById);
+router.put("/:id", protect, upload.single("profileImage"), updateDoctor);
+
+
 
 module.exports = router;

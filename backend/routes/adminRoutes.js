@@ -5,6 +5,7 @@ const protect = require("../middleware/authMiddleware");
 const Admin = require("../models/Admin");
 const upload = require("../middleware/uploadMiddleware");
 
+
 // Conditionally apply protect middleware for the /register route:
 // If at least one admin exists, require a valid admin token; otherwise, allow registration.
 router.post("/signup", upload.single("profileImage") ,(req, res, next) => {

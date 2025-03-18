@@ -140,4 +140,64 @@ const getDoctors = async (req, res) => {
   res.json(doctors);
 };
 
-module.exports = { registerDoctor, loginDoctor, getDoctors, logout };
+const getDoctorById = async (req, res) => {
+  try {
+    if (!req.user || (req.user.role !== "admin" && req.user.role !== "reception")) {
+      return res.status(403).json({ message: "Access Denied" });
+    }
+
+    const doctor = await Doctor.findById(req.params.id);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    res.status(200).json(doctor);
+  } catch (error) {
+    console.error("Error fetching doctor details:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const updateDoctor = async (req, res) => {
+  try {
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access Denied" });
+    }
+
+    const doctor = await Doctor.findById(req.params.id);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Extract fields from the request body
+    const { name, email, phone, specialty, qualification, availableDays, availableTime } = req.body;
+
+    // Update fields if provided
+    if (name) doctor.name = name;
+    if (email) doctor.email = email;
+    if (phone) doctor.phone = phone;
+    if (specialty) doctor.specialty = specialty;
+    if (qualification) doctor.qualification = qualification;
+    if (availableDays) doctor.availableDays = JSON.parse(availableDays);
+    if (availableTime) doctor.availableTime = JSON.parse(availableTime);
+
+    // ✅ Handle Profile Image Upload
+    if (req.file) {
+      console.log("🔍 Uploading new profile image to Cloudinary...");
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path, { folder: "hospital_dashboard/doctors" });
+      doctor.profileImage = uploadedImage.secure_url;
+      console.log("✅ Profile image updated:", doctor.profileImage);
+    }
+
+    // Save updated doctor details
+    await doctor.save();
+    res.status(200).json({ message: "Doctor updated successfully", doctor });
+
+  } catch (error) {
+    console.error("❌ Error updating doctor:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
+module.exports = { registerDoctor, loginDoctor, getDoctors,getDoctorById, logout,updateDoctor };
