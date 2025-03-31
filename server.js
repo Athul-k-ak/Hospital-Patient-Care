@@ -21,7 +21,7 @@ connectDB();
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:5173",  // Allow frontend URL
+  origin: ["http://localhost:5173","https://hospital-patient-care-frontend.onrender.com"],  // Allow frontend URL
   credentials: true,  // Allow cookies
 }));
 app.use(express.json());
